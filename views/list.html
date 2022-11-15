@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+  {% block content %}
+<form action="/"  method="post" class="grid">
+  <input name="user" type="text" placeholder="your name " value="{{ author }}">
+  <textarea name="content"  placeholder="Enter the task title "></textarea>
+  <input type="submit" value="Add">
+</form>
+<div>
+  <ul style="color: red">
+  {% for error in errors %}
+  <li>{{ error.msg }}</li>
+  {% endfor %}
+  </ul>
+  {% for task in tasks %}
+  {% set isDone= "done" if task.done else "" %}
+    <p class="{{ isDone }}" >{{task.content}}</p>
+  {% else%}
+  <p>No tasks add some...</p>
+  {% endfor %}
+</div>
+  {% endblock %}
