@@ -2,6 +2,7 @@ const templateEngin = require('nunjucks')
 const express = require('express')
 const cookieParser =  require('cookie-parser')
 const {body, validationResult} = require('express-validator');
+const escapeHtml = require('escape-html')
 const {getAllTasks, addTask} = require("./todo_model");
 const app = express()
 app.use(cookieParser())
@@ -13,9 +14,17 @@ autoescape: false
 app.route("/")
     .get(async (req, res) => {
         const author = req.cookies.author??''
-        res.render('list.html', {tasks: await getAllTasks(),author})
+        const rawTasks = await getAllTasks()
+        const tasks = rawTasks.map((task)=>{
+            return {
+                id:task.id,
+                user:escapeHtml(task.user),
+                content:escapeHtml(task.content)
+            }
+        })
+        res.render('list.html', {tasks,author})
     })
-    .post(body('content', 'task title required').trim().isLength({min: 1}),
+    .post(body('content', 'task title required').trim().isLength({min: 1}).escape(),
         async (req,res) => {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
