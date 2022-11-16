@@ -16,7 +16,8 @@ async function getAllTasks() {
 }
 const addTask = async (task) => {
     const db = await getDbConnection();
-    const meta = await db.run(`insert into tasks(user,content) values ('${task.user}','${task.content}')`)
+   const sql= await db.prepare('insert into tasks(user,content) values (?,?)')
+    const meta = await sql.run([task.user, task.content])
     await db.close()
     return meta
 }
