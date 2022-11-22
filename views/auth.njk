@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+  {% block content %}
+      {% if success %}
+          <div class="alert alert-success">
+              <h3>{{ success }}</h3>
+          </div>
+      {% endif %}
+      {% if errors %}
+          <div class="alert alert-danger">
+              <ul>
+                  {% for err in errors %}
+                      <li>{{ err.msg }}</li>
+                  {% endfor %}
+              </ul>
+          </div>
+      {% endif %}
+      <form action="/{{ 'login' if mode == 'login' else 'register' }}" method="post" class="grid">
+          <input type="text" name="username" placeholder="username" required
+                 value="{{ username }}">
+          <input type="password" name="password" placeholder="password" required>
+          <button type="submit">{{ 'Login' if mode == 'login' else 'Register' }}</button>
+      </form>
+      {% if mode=='login' %}
+          <p>Don't have account? <a href="/register">Register for Free</a></p>
+      {% endif %}
+  {% endblock %}

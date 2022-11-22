@@ -11,12 +11,33 @@
       /*grid-template-columns: 3fr;*/
       gap: 10px;
     }
-    .done{
-      text-decoration: line-through;
+    .alert{
+      border-radius: 2rem;
+      padding: 2rem;
+      color: white;
+      margin-bottom: 2rem;
+      display: flex;
+      justify-content: space-around;
+    }
+    .alert-success{
+      background: rgb(3, 159, 37);
+    }
+    .alert-danger{
+      background: #a10505;
+    }
+    input, button, textarea{
+      padding: 1em;
     }
   </style>
 </head>
 <body>
+<header>
+  {% if name %}
+  <div class="alert alert-success">
+  Welcome {{ name }} <a href="/logout">logout</a>
+  </div>
+  {% endif %}
+</header>
   {% block content %}
   {% endblock %}
 </body>
